@@ -2,9 +2,11 @@ import OneWeek from "../public/Components/OneWeek";
 import styles from "../styles/Home.module.css";
 import { weeks, sessions } from "../public/data";
 import { useState } from "react";
+import SessionOverview from "../public/Components/SessionOverview";
 
 export default function Home() {
   const [week, setWeek] = useState(weeks[0]);
+  const [allSessions, setAllSessions] = useState(sessions);
 
   function handleNextWeek() {
     const indexOfWeek = weeks.findIndex((element) => element === week);
@@ -21,12 +23,13 @@ export default function Home() {
   }
 
   return (
-    <>
+    <section className={styles.container}>
       <OneWeek
         week={week}
         onNext={handleNextWeek}
         onPrev={handlePreviousWeek}
       ></OneWeek>
-    </>
+      <SessionOverview sessions={allSessions}></SessionOverview>
+    </section>
   );
 }
