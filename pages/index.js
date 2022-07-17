@@ -1,7 +1,11 @@
-import Head from "next/head";
-import Image from "next/image";
+import OneWeek from "../public/Components/OneWeek";
 import styles from "../styles/Home.module.css";
+import { data } from "../public/data";
 
 export default function Home() {
-  return <h1 className={styles.heading}>hellooooooo drag app</h1>;
+  return (
+    <>
+      <OneWeek data={data[0]}></OneWeek>
+    </>
+  );
 }
