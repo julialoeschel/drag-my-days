@@ -1,6 +1,6 @@
 import OneWeek from "../public/Components/OneWeek";
 import styles from "../styles/Home.module.css";
-import { weeks, sessions } from "../public/data";
+import { weeks, sessions, guestSessions, breather } from "../public/data";
 import { useState } from "react";
 import SessionOverview from "../public/Components/SessionOverview";
 
@@ -29,7 +29,11 @@ export default function Home() {
         onNext={handleNextWeek}
         onPrev={handlePreviousWeek}
       ></OneWeek>
-      <SessionOverview sessions={allSessions}></SessionOverview>
+      <SessionOverview
+        sessions={allSessions}
+        guestSessions={guestSessions}
+        breather={breather}
+      ></SessionOverview>
     </section>
   );
 }

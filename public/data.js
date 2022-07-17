@@ -163,3 +163,73 @@ export const sessions = [
   { session: "JS Functions 1", coach: "Julia" },
   { session: "JS Functions 2", coach: "Julia" },
 ];
+
+export const guestSessions = [
+  {
+    guestSession: "Kommunikation",
+    coach: "Nele",
+  },
+  {
+    guestSession: "Get to knwo each other",
+    coach: "Julia",
+  },
+  {
+    guestSession: "How to ...",
+    coach: "jemand",
+  },
+  {
+    guestSession: "How to ...",
+    coach: "jemand",
+  },
+  {
+    guestSession: "How to ...",
+    coach: "jemand",
+  },
+  {
+    guestSession: "How to ...",
+    coach: "jemand",
+  },
+  {
+    guestSession: "How to ...",
+    coach: "jemand",
+  },
+  {
+    guestSession: "How to ...",
+    coach: "jemand",
+  },
+  {
+    guestSession: "How to ...",
+    coach: "jemand",
+  },
+  {
+    guestSession: "How to ...",
+    coach: "jemand",
+  },
+  {
+    guestSession: "How to ...",
+    coach: "jemand",
+  },
+  {
+    guestSession: "How to ...",
+    coach: "jemand",
+  },
+  {
+    guestSession: "How to ...",
+    coach: "jemand",
+  },
+];
+
+export const breather = [
+  {
+    breather: "Irgendwas",
+    coach: "Ayla",
+  },
+  {
+    breather: "Irgendwas in Praxis",
+    coach: "Ayla",
+  },
+  {
+    breather: "Sport",
+    coach: "Sportwissenschaftler",
+  },
+];

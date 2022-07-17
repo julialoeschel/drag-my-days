@@ -27,7 +27,9 @@
   border: 1px hotpink solid;
   border-radius: 5px;
 }
-
-.button:hover {
-  background-color: aqua;
+.buttonActive {
+  padding: 5px 10px;
+  background-color: hotpink;
+  border: 1px hotpink solid;
+  border-radius: 5px;
 }
