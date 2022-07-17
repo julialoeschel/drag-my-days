@@ -1,23 +1,23 @@
 import OneWeek from "../public/Components/OneWeek";
 import styles from "../styles/Home.module.css";
-import { data } from "../public/data";
+import { weeks, sessions } from "../public/data";
 import { useState } from "react";
 
 export default function Home() {
-  const [week, setWeek] = useState(data[0]);
+  const [week, setWeek] = useState(weeks[0]);
 
   function handleNextWeek() {
-    const indexOfWeek = data.findIndex((element) => element === week);
-    if (indexOfWeek == data.length - 1) return;
+    const indexOfWeek = weeks.findIndex((element) => element === week);
+    if (indexOfWeek == weeks.length - 1) return;
     const indexOfNextWeek = indexOfWeek + 1;
-    setWeek(data[indexOfNextWeek]);
+    setWeek(weeks[indexOfNextWeek]);
   }
 
   function handlePreviousWeek() {
-    const indexOfWeek = data.findIndex((element) => element === week);
+    const indexOfWeek = weeks.findIndex((element) => element === week);
     if (indexOfWeek == 0) return;
     const indexOfLastWeek = indexOfWeek - 1;
-    setWeek(data[indexOfLastWeek]);
+    setWeek(weeks[indexOfLastWeek]);
   }
 
   return (

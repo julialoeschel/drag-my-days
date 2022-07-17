@@ -1,4 +1,4 @@
-export const data = [
+export const weeks = [
   {
     week: 1,
     days: [
@@ -139,4 +139,27 @@ export const data = [
       },
     ],
   },
+];
+
+export const sessions = [
+  { session: "welcome", coach: "Julia" },
+  { session: "Github and Markdown", coach: "Julia" },
+  { session: "Shell Basics & Setup", coach: "Gregor" },
+  { session: "Git CLI & remote & ssh Setup", coach: "Gregor" },
+  { session: "Git branches & pull requests", coach: "Gregor" },
+  { session: "HTML Basics and the Web", coach: "Julia" },
+  { session: "CSS Basics", coach: "Dominik" },
+  { session: "CSS Selektors", coach: "Gregor" },
+  { session: "CSS Flexbox", coach: "Mareike" },
+  { session: "CSS Positioning", coach: "Julia" },
+  { session: "Repetition Project", coach: "Gregor" },
+  { session: "A11y", coach: "Gregor" },
+  { session: "JS Basics", coach: "Gregor" },
+  { session: "CSS Structure", coach: "Gregor" },
+  { session: "JS Variables and Numbers", coach: "Julia" },
+  { session: "CSS Grid", coach: "Mareike" },
+  { session: "JS Conditions Booleans", coach: "" },
+  { session: "CSS Responsive", coach: "" },
+  { session: "JS Functions 1", coach: "Julia" },
+  { session: "JS Functions 2", coach: "Julia" },
 ];
