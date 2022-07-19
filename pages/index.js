@@ -1,39 +1,42 @@
 import OneWeek from "../public/Components/OneWeek";
 import styles from "../styles/Home.module.css";
-import { weeks, sessions, guestSessions, breather } from "../public/data";
+import { data } from "../public/data-newsortet";
 import { useState } from "react";
 import SessionOverview from "../public/Components/SessionOverview";
+import { DndContext } from "@dnd-kit/core";
 
 export default function Home() {
-  const [week, setWeek] = useState(weeks[0]);
-  const [allSessions, setAllSessions] = useState(sessions);
+  const [week, setWeek] = useState(data.weeks[0]);
+  const [allSessions, setAllSessions] = useState(data.sessions);
 
   function handleNextWeek() {
-    const indexOfWeek = weeks.findIndex((element) => element === week);
-    if (indexOfWeek == weeks.length - 1) return;
+    const indexOfWeek = data.weeks.findIndex((element) => element === week);
+    if (indexOfWeek == data.weeks.length - 1) return;
     const indexOfNextWeek = indexOfWeek + 1;
-    setWeek(weeks[indexOfNextWeek]);
+    setWeek(data.weeks[indexOfNextWeek]);
   }
 
   function handlePreviousWeek() {
-    const indexOfWeek = weeks.findIndex((element) => element === week);
+    const indexOfWeek = data.weeks.findIndex((element) => element === week);
     if (indexOfWeek == 0) return;
     const indexOfLastWeek = indexOfWeek - 1;
-    setWeek(weeks[indexOfLastWeek]);
+    setWeek(data.weeks[indexOfLastWeek]);
   }
 
   return (
-    <section className={styles.container}>
-      <OneWeek
-        week={week}
-        onNext={handleNextWeek}
-        onPrev={handlePreviousWeek}
-      ></OneWeek>
-      <SessionOverview
-        sessions={allSessions}
-        guestSessions={guestSessions}
-        breather={breather}
-      ></SessionOverview>
-    </section>
+    <DndContext>
+      <section className={styles.container}>
+        <OneWeek
+          week={week}
+          onNext={handleNextWeek}
+          onPrev={handlePreviousWeek}
+        ></OneWeek>
+        <SessionOverview
+          sessions={allSessions}
+          guestSessions={data.guestSessions}
+          breather={data.breather}
+        ></SessionOverview>
+      </section>
+    </DndContext>
   );
 }
