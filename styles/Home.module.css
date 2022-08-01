@@ -1,6 +1,14 @@
 .container {
-  display: grid;
-  grid-template-rows: min-content 1fr;
-  height: 94vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.upperContainer {
+  display: flex;
   width: 100vw;
+  overflow: scroll;
+}
+
+.lowerContainer {
+  display: flex;
 }
