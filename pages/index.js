@@ -1,39 +1,152 @@
-import OneWeek from "../public/Components/OneWeek";
 import styles from "../styles/Home.module.css";
-import { weeks, sessions, guestSessions, breather } from "../public/data";
+import { data } from "../public/data-newsortet";
 import { useState } from "react";
-import SessionOverview from "../public/Components/SessionOverview";
+import {
+  DndContext,
+  DragOverlay,
+  closestCorners,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
+import ContainerWeek from "../public/Components/ContainerWeek";
+import Container from "../public/Components/Container";
+import { Item } from "../public/Components/SortableItem";
 
 export default function Home() {
-  const [week, setWeek] = useState(weeks[0]);
-  const [allSessions, setAllSessions] = useState(sessions);
+  const [items, setItems] = useState(data());
+  const [activeId, setActiveId] = useState();
+  const days = Object.keys(items).filter((key) => key.includes("day"));
 
-  function handleNextWeek() {
-    const indexOfWeek = weeks.findIndex((element) => element === week);
-    if (indexOfWeek == weeks.length - 1) return;
-    const indexOfNextWeek = indexOfWeek + 1;
-    setWeek(weeks[indexOfNextWeek]);
-  }
-
-  function handlePreviousWeek() {
-    const indexOfWeek = weeks.findIndex((element) => element === week);
-    if (indexOfWeek == 0) return;
-    const indexOfLastWeek = indexOfWeek - 1;
-    setWeek(weeks[indexOfLastWeek]);
-  }
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   return (
     <section className={styles.container}>
-      <OneWeek
-        week={week}
-        onNext={handleNextWeek}
-        onPrev={handlePreviousWeek}
-      ></OneWeek>
-      <SessionOverview
-        sessions={allSessions}
-        guestSessions={guestSessions}
-        breather={breather}
-      ></SessionOverview>
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCorners}
+        onDragStart={handleDragStart}
+        onDragOver={handleDragOver}
+        onDragEnd={handleDragEnd}
+      >
+        <div className={styles.upperContainer}>
+          {days.map((day) => (
+            <ContainerWeek id={day} key={day} items={items[day]} date={day} />
+          ))}
+        </div>
+
+        <div className={styles.lowerContainer}>
+          <Container id="sessions" items={items.sessions} />
+          <Container id="guestSessions" items={items.guestSessions} />
+          <Container id="breather" items={items.breather} />
+        </div>
+
+        <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay>
+      </DndContext>
     </section>
   );
+
+  function findContainer(id) {
+    if (id in items) {
+      return id;
+    }
+    const foundContainer = Object.keys(items).find((key) =>
+      items[key].map((x) => x.id).includes(id)
+    );
+
+    return foundContainer;
+  }
+
+  function handleDragStart(event) {
+    const { active } = event;
+    const { id } = active;
+
+    setActiveId(id);
+  }
+
+  function handleDragOver(event) {
+    const { active, over } = event;
+    const { id } = active;
+    const { id: overId } = over;
+
+    // Find the containers
+    const activeContainer = findContainer(id);
+    const overContainer = findContainer(overId);
+    if (
+      !activeContainer ||
+      !overContainer ||
+      activeContainer === overContainer
+    ) {
+      return;
+    }
+
+    setItems((prev) => {
+      //container mit Inhalt [{},{}...]
+      const activeItems = prev[activeContainer];
+      const overItems = prev[overContainer];
+      // Find the indexes for the items
+      const activeIndex = activeItems.map((x) => x.id).indexOf(id);
+      const overIndex = overItems.map((x) => x.id).indexOf(overId);
+
+      let newIndex;
+      if (overId in prev) {
+        // We're at the root droppable of a container
+        newIndex = overItems.length + 1;
+      } else {
+        const isBelowLastItem = over && overIndex === overItems.length - 1;
+        const modifier = isBelowLastItem ? 1 : 0;
+
+        newIndex = overIndex >= 0 ? overIndex + modifier : overItems.length + 1;
+      }
+      return {
+        ...prev,
+        [activeContainer]: [
+          ...prev[activeContainer].filter((item) => item.id !== active.id),
+        ],
+        [overContainer]: [
+          ...prev[overContainer].slice(0, newIndex),
+          items[activeContainer][activeIndex],
+          ...prev[overContainer].slice(newIndex, prev[overContainer].length),
+        ],
+      };
+    });
+  }
+
+  function handleDragEnd(event) {
+    const { active, over } = event;
+    const { id } = active;
+    const { id: overId } = over;
+
+    const activeContainer = findContainer(id);
+    const overContainer = findContainer(overId);
+
+    if (
+      !activeContainer ||
+      !overContainer ||
+      activeContainer !== overContainer
+    ) {
+      return;
+    }
+
+    const activeIndex = items[activeContainer]
+      .map((x) => x.id)
+      .indexOf(active.id);
+    const overIndex = items[overContainer].map((x) => x.id).indexOf(overId);
+
+    if (activeIndex !== overIndex) {
+      setItems((prev) => ({
+        ...prev,
+        [overContainer]: arrayMove(prev[overContainer], activeIndex, overIndex),
+      }));
+    }
+
+    setActiveId(null);
+  }
 }

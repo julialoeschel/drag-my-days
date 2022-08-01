@@ -1,0 +1,7 @@
+.containerweek {
+  background: #dadada;
+  padding: 10px;
+  margin: 10px;
+  flex: 1;
+  min-width: 200px;
+}
