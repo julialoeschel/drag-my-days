@@ -7,8 +7,38 @@
   display: flex;
   width: 100vw;
   overflow: scroll;
+
+  padding-bottom: 10px;
 }
 
 .lowerContainer {
+  display: grid;
+  grid-template-rows: 50px 1fr;
+  height: 50%;
+}
+
+.buttonContainer {
   display: flex;
+  margin-left: 20px;
+  gap: 20px;
+  align-items: center;
+}
+
+.buttonContainer button {
+  background-color: transparent;
+  border: none;
+  padding: 20px;
+  color: hotpink;
+  cursor: pointer;
+}
+
+.buttonContainer button:hover {
+  background-color: hotpink;
+  border-radius: 20px;
+  color: white;
+}
+
+.buttonContainer .activeButton {
+  border-bottom: 3px solid hotpink;
+  font-weight: 600;
 }

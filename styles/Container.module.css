@@ -1,7 +1,26 @@
 .containerweek {
-  background: #dadada;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   padding: 10px;
   margin: 10px;
   flex: 1;
   min-width: 200px;
+  box-shadow: lightpink 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: flex-start;
+  margin: 20px;
+  height: 50vh;
+  flex-wrap: wrap;
+}
+
+.item {
+  box-shadow: lightpink 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  padding: 4px 10px;
+  width: 180px;
 }
