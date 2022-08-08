@@ -27,6 +27,7 @@ export default function Home() {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
+  console.log(showLecture);
   return (
     <section className={styles.container}>
       <DndContext
@@ -69,9 +70,11 @@ export default function Home() {
           </div>
           {showLecture === "session" ? (
             <Container id="sessions" items={items.sessions} />
-          ) : <Container id="guestSessions" items={items.guestSessions} /> ? (
+          ) : showLecture === "guestSession" ? (
+            <Container id="guestSessions" items={items.guestSessions} />
+          ) : (
             <Container id="breather" items={items.breather} />
-          ) : null}
+          )}
         </div>
         <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay>
       </DndContext>
