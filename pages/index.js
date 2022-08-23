@@ -18,6 +18,7 @@ import { Item } from "../public/Components/SortableItem";
 export default function Home() {
   const [items, setItems] = useState(data());
   const [activeId, setActiveId] = useState();
+  const [showLecture, setShowLecture] = useState("session");
   const days = Object.keys(items).filter((key) => key.includes("day"));
 
   const sensors = useSensors(
@@ -26,7 +27,7 @@ export default function Home() {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-
+  console.log(showLecture);
   return (
     <section className={styles.container}>
       <DndContext
@@ -43,11 +44,38 @@ export default function Home() {
         </div>
 
         <div className={styles.lowerContainer}>
-          <Container id="sessions" items={items.sessions} />
-          <Container id="guestSessions" items={items.guestSessions} />
-          <Container id="breather" items={items.breather} />
+          <div className={styles.buttonContainer}>
+            <button
+              onClick={() => setShowLecture("session")}
+              className={showLecture === "session" ? styles.activeButton : null}
+            >
+              Sessions
+            </button>
+            <button
+              onClick={() => setShowLecture("guestSession")}
+              className={
+                showLecture === "guestSession" ? styles.activeButton : null
+              }
+            >
+              GuestSession
+            </button>
+            <button
+              onClick={() => setShowLecture("breather")}
+              className={
+                showLecture === "breather" ? styles.activeButton : null
+              }
+            >
+              Breather
+            </button>
+          </div>
+          {showLecture === "session" ? (
+            <Container id="sessions" items={items.sessions} />
+          ) : showLecture === "guestSession" ? (
+            <Container id="guestSessions" items={items.guestSessions} />
+          ) : (
+            <Container id="breather" items={items.breather} />
+          )}
         </div>
-
         <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay>
       </DndContext>
     </section>

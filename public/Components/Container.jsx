@@ -3,6 +3,7 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
+import styles from "../../styles/Container.module.css";
 
 import SortableItem from "./SortableItem";
 
@@ -26,7 +27,7 @@ export default function Container(props) {
       items={items}
       strategy={verticalListSortingStrategy}
     >
-      <div ref={setNodeRef} style={containerStyle}>
+      <div ref={setNodeRef} className={styles.container}>
         {items.map((item) => (
           <SortableItem key={item.id} id={item.id} name={item.name} />
         ))}
