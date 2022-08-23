@@ -9,6 +9,9 @@
   box-shadow: lightpink 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
 }
 
+.containerweek:nth-child(5n) {
+  border-right: 3px solid hotpink;
+}
 .container {
   display: flex;
   flex-direction: column;

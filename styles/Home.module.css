@@ -10,11 +10,6 @@
   position: relative;
   padding-bottom: 10px;
 }
-/*wie kan ich jeden Monat Markieren, oder jede woche?
-ich selekte hier zu viele Elemente */
-.upperContainer :nth-child(5n) {
-  border: 2px dotted blue;
-}
 
 .lowerContainer {
   display: grid;
