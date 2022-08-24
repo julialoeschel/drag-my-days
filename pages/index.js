@@ -16,7 +16,6 @@ import Container from "../public/Components/Container";
 import { Item } from "../public/Components/SortableItem";
 
 export default function Home() {
-  // how to get localstorage in here?
   const [items, setItems] = useState(data());
   const [activeId, setActiveId] = useState();
   const [showLecture, setShowLecture] = useState("session");
@@ -182,7 +181,6 @@ export default function Home() {
     }
 
     setActiveId(null);
-
     localStorage.setItem("items", JSON.stringify(items));
   }
 }
