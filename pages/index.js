@@ -1,6 +1,6 @@
 import styles from "../styles/Home.module.css";
 import { data } from "../public/data-newsortet";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   DndContext,
   DragOverlay,
@@ -27,7 +27,12 @@ export default function Home() {
       coordinateGetter: sortableKeyboardCoordinates,
     })
   );
-  console.log(showLecture);
+
+  useEffect(
+    () => setItems(JSON.parse(window.localStorage.getItem("items"))),
+    []
+  );
+
   return (
     <section className={styles.container}>
       <DndContext
@@ -176,5 +181,6 @@ export default function Home() {
     }
 
     setActiveId(null);
+    localStorage.setItem("items", JSON.stringify(items));
   }
 }
