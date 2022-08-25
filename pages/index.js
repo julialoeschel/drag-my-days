@@ -38,10 +38,10 @@ export default function Home() {
     []
   );
 
-  useEffect(
-    () => localStorage.setItem("items", JSON.stringify(items)),
-    [items]
-  );
+  // useEffect(
+  //   () => localStorage.setItem("items", JSON.stringify(items)),
+  //   [items]
+  // );
 
   function handleEdit(updatedValue) {
     const foundDay = findContainer(updatedValue.id);
@@ -55,7 +55,10 @@ export default function Home() {
     ];
 
     setItems({ ...items, [foundDay]: updatedDay });
+    localStorage.setItem("items", JSON.stringify(items));
   }
+
+  function handleEditSessions(updatedValue) {}
 
   return (
     <section className={styles.container}>
@@ -107,7 +110,7 @@ export default function Home() {
             <Container
               id="sessions"
               items={items.sessions}
-              // onEdit={handleEdit}
+              onEdit={handleEditSessions}
             />
           ) : showLecture === "guestSession" ? (
             <Container
