@@ -38,10 +38,10 @@ export default function Home() {
     []
   );
 
-  useEffect(
-    () => localStorage.setItem("items", JSON.stringify(items)),
-    [items]
-  );
+  // useEffect(
+  //   () => localStorage.setItem("items", JSON.stringify(items)),
+  //   [items]
+  // );
 
   function handleEdit(updatedValue) {
     const foundDay = findContainer(updatedValue.id);
@@ -55,6 +55,46 @@ export default function Home() {
     ];
 
     setItems({ ...items, [foundDay]: updatedDay });
+    localStorage.setItem("items", JSON.stringify(items));
+  }
+
+  function handleEditSessions(updatedValue) {
+    const foundIndex = items.sessions.findIndex(
+      (session) => session.id === updatedValue.id
+    );
+    const updatedSessions = [
+      ...items.sessions.slice(0, foundIndex),
+      updatedValue,
+      ...items.sessions.slice(foundIndex + 1, items.sessions.length),
+    ];
+    setItems({ ...items, sessions: updatedSessions });
+    localStorage.setItem("items", JSON.stringify(items));
+  }
+
+  function handleEditGuestSession(updatedValue) {
+    const foundIndex = items.guestSessions.findIndex(
+      (session) => session.id === updatedValue.id
+    );
+    const updatedSessions = [
+      ...items.guestSessions.slice(0, foundIndex),
+      updatedValue,
+      ...items.guestSessions.slice(foundIndex + 1, items.guestSessions.length),
+    ];
+    setItems({ ...items, guestSessions: updatedSessions });
+    localStorage.setItem("items", JSON.stringify(items));
+  }
+
+  function handleEditBreather(updatedValue) {
+    const foundIndex = items.breather.findIndex(
+      (session) => session.id === updatedValue.id
+    );
+    const updatedSessions = [
+      ...items.breather.slice(0, foundIndex),
+      updatedValue,
+      ...items.breather.slice(foundIndex + 1, items.breather.length),
+    ];
+    setItems({ ...items, breather: updatedSessions });
+    localStorage.setItem("items", JSON.stringify(items));
   }
 
   return (
@@ -107,19 +147,19 @@ export default function Home() {
             <Container
               id="sessions"
               items={items.sessions}
-              // onEdit={handleEdit}
+              onEdit={handleEditSessions}
             />
           ) : showLecture === "guestSession" ? (
             <Container
               id="guestSessions"
               items={items.guestSessions}
-              //  onEdit={handleEdit}
+              onEdit={handleEditGuestSession}
             />
           ) : (
             <Container
               id="breather"
               items={items.breather}
-              // onEdit={handleEdit}
+              onEdit={handleEditBreather}
             />
           )}
         </div>

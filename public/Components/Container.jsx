@@ -22,7 +22,12 @@ export default function Container(props) {
     >
       <div ref={setNodeRef} className={styles.container}>
         {items.map((item) => (
-          <SortableItem key={item.id} id={item.id} item={item} />
+          <SortableItem
+            key={item.id}
+            id={item.id}
+            item={item}
+            onEdit={props.onEdit}
+          />
         ))}
       </div>
     </SortableContext>

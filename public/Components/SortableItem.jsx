@@ -24,20 +24,13 @@ export function Item(props) {
       />
 
       <label htmlFor="coach">Coach: </label>
-      <input
-        type="text"
-        name="coach"
-        id="coach"
-        defaultValue={props.item.coach}
-      />
+      <input type="text" name="coach" id="coach" defaultValue={props.coach} />
       <button type="submit">save</button>
     </form>
   ) : (
     <div className={styles.item} onClick={() => setIsEditing(!isEditing)}>
       {props.name}
-      {props.item.coach ? (
-        <span className={styles.name}>{props.item.coach}</span>
-      ) : null}
+      {props.coach ? <span className={styles.name}>{props.coach}</span> : null}
     </div>
   );
 }
@@ -56,7 +49,7 @@ export default function SortableItem(props) {
       <Item
         id={props.id}
         name={props.item.name}
-        item={props.item}
+        coach={props.item.coach}
         onEdit={props.onEdit}
       />
     </div>
