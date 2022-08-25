@@ -56,7 +56,7 @@ export default function Home() {
 
     setItems({ ...items, [foundDay]: updatedDay });
   }
-  console.log(items);
+
   return (
     <section className={styles.container}>
       <DndContext

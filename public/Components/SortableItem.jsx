@@ -12,7 +12,6 @@ export function Item(props) {
     props.onEdit({ name: session.value, id: props.id, coach: coach.value });
     setIsEditing(false);
   }
-  console.log(props.item.coach);
 
   return isEditing ? (
     <form className={styles.form} onSubmit={handleSubmit}>
@@ -36,6 +35,9 @@ export function Item(props) {
   ) : (
     <div className={styles.item} onClick={() => setIsEditing(!isEditing)}>
       {props.name}
+      {props.item.coach ? (
+        <span className={styles.name}>{props.item.coach}</span>
+      ) : null}
     </div>
   );
 }
