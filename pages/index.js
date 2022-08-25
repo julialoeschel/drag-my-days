@@ -84,6 +84,19 @@ export default function Home() {
     localStorage.setItem("items", JSON.stringify(items));
   }
 
+  function handleEditBreather(updatedValue) {
+    const foundIndex = items.breather.findIndex(
+      (session) => session.id === updatedValue.id
+    );
+    const updatedSessions = [
+      ...items.breather.slice(0, foundIndex),
+      updatedValue,
+      ...items.breather.slice(foundIndex + 1, items.breather.length),
+    ];
+    setItems({ ...items, breather: updatedSessions });
+    localStorage.setItem("items", JSON.stringify(items));
+  }
+
   return (
     <section className={styles.container}>
       <DndContext
@@ -146,7 +159,7 @@ export default function Home() {
             <Container
               id="breather"
               items={items.breather}
-              // onEdit={handleEdit}
+              onEdit={handleEditBreather}
             />
           )}
         </div>
