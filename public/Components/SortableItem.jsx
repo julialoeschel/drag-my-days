@@ -5,9 +5,22 @@ import { useState } from "react";
 
 export function Item(props) {
   const [isEditing, setIsEditing] = useState(false);
-  isEditing === true ? console.log(props) : "";
 
-  return (
+  return isEditing ? (
+    <form className={styles.form}>
+      <label htmlFor="session">Session: </label>
+      <input
+        type="text"
+        name="session"
+        id="session"
+        defaultValue={props.name}
+      />
+
+      <label htmlFor="coach">Coach: </label>
+      <input type="text" name="coach" id="coach" defaultValue={props.coach} />
+      <button>save</button>
+    </form>
+  ) : (
     <div className={styles.item} onClick={() => setIsEditing(!isEditing)}>
       {props.name}
     </div>
