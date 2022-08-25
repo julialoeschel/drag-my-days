@@ -38,6 +38,10 @@ export default function Home() {
     []
   );
 
+  function handleEdit(updatedValue) {
+    console.log("it worked");
+  }
+
   return (
     <section className={styles.container}>
       <DndContext
@@ -49,7 +53,13 @@ export default function Home() {
       >
         <div className={styles.upperContainer}>
           {days.map((day) => (
-            <ContainerWeek id={day} key={day} items={items[day]} date={day} />
+            <ContainerWeek
+              id={day}
+              key={day}
+              items={items[day]}
+              date={day}
+              onEdit={handleEdit}
+            />
           ))}
         </div>
 
@@ -79,11 +89,23 @@ export default function Home() {
             </button>
           </div>
           {showLecture === "session" ? (
-            <Container id="sessions" items={items.sessions} />
+            <Container
+              id="sessions"
+              items={items.sessions}
+              // onEdit={handleEdit}
+            />
           ) : showLecture === "guestSession" ? (
-            <Container id="guestSessions" items={items.guestSessions} />
+            <Container
+              id="guestSessions"
+              items={items.guestSessions}
+              //  onEdit={handleEdit}
+            />
           ) : (
-            <Container id="breather" items={items.breather} />
+            <Container
+              id="breather"
+              items={items.breather}
+              // onEdit={handleEdit}
+            />
           )}
         </div>
         <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay>

@@ -6,8 +6,15 @@ import { useState } from "react";
 export function Item(props) {
   const [isEditing, setIsEditing] = useState(false);
 
+  function handleSubmit(event) {
+    event.preventDefault();
+    const { session, coach } = event.target.elements;
+    props.onEdit({ name: session.value, id: props.id, coach: coach.value });
+    setIsEditing(false);
+  }
+
   return isEditing ? (
-    <form className={styles.form}>
+    <form className={styles.form} onSubmit={handleSubmit}>
       <label htmlFor="session">Session: </label>
       <input
         type="text"
@@ -18,7 +25,7 @@ export function Item(props) {
 
       <label htmlFor="coach">Coach: </label>
       <input type="text" name="coach" id="coach" defaultValue={props.coach} />
-      <button>save</button>
+      <button type="submit">save</button>
     </form>
   ) : (
     <div className={styles.item} onClick={() => setIsEditing(!isEditing)}>
@@ -38,7 +45,12 @@ export default function SortableItem(props) {
 
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <Item id={props.id} name={props.item.name} item={props.item} />
+      <Item
+        id={props.id}
+        name={props.item.name}
+        item={props.item}
+        onEdit={props.onEdit}
+      />
     </div>
   );
 }
