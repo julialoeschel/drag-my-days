@@ -71,6 +71,19 @@ export default function Home() {
     localStorage.setItem("items", JSON.stringify(items));
   }
 
+  function handleEditGuestSession(updatedValue) {
+    const foundIndex = items.guestSessions.findIndex(
+      (session) => session.id === updatedValue.id
+    );
+    const updatedSessions = [
+      ...items.guestSessions.slice(0, foundIndex),
+      updatedValue,
+      ...items.guestSessions.slice(foundIndex + 1, items.guestSessions.length),
+    ];
+    setItems({ ...items, guestSessions: updatedSessions });
+    localStorage.setItem("items", JSON.stringify(items));
+  }
+
   return (
     <section className={styles.container}>
       <DndContext
@@ -127,7 +140,7 @@ export default function Home() {
             <Container
               id="guestSessions"
               items={items.guestSessions}
-              //  onEdit={handleEdit}
+              onEdit={handleEditGuestSession}
             />
           ) : (
             <Container
