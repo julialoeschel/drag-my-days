@@ -58,7 +58,18 @@ export default function Home() {
     localStorage.setItem("items", JSON.stringify(items));
   }
 
-  function handleEditSessions(updatedValue) {}
+  function handleEditSessions(updatedValue) {
+    const foundIndex = items.sessions.findIndex(
+      (session) => session.id === updatedValue.id
+    );
+    const updatedSessions = [
+      ...items.sessions.slice(0, foundIndex),
+      updatedValue,
+      ...items.sessions.slice(foundIndex + 1, items.sessions.length),
+    ];
+    setItems({ ...items, sessions: updatedSessions });
+    localStorage.setItem("items", JSON.stringify(items));
+  }
 
   return (
     <section className={styles.container}>
