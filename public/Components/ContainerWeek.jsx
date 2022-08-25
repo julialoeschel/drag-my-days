@@ -25,7 +25,12 @@ export default function ContainerWeek(props) {
       <div ref={setNodeRef} className={styles.containerweek}>
         <span>{props.date}</span>
         {items.map((item) => (
-          <SortableItem key={item.id} id={item.id} name={item.name} />
+          <SortableItem
+            key={item.id}
+            id={item.id}
+            item={item}
+            onEdit={props.onEdit}
+          />
         ))}
       </div>
     </SortableContext>

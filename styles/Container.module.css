@@ -26,4 +26,35 @@
   box-shadow: lightpink 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
   padding: 4px 10px;
   width: 180px;
+  position: relative;
+}
+
+.form {
+  background-color: rgb(255, 234, 245);
+  border-radius: 10px;
+  padding: 5px;
+  display: flex;
+  gap: 5px;
+  flex-direction: column;
+  width: 180px;
+  margin: 7px 0;
+}
+
+.form button {
+  width: 60px;
+  justify-content: center;
+  align-self: center;
+}
+
+.form input:focus {
+  outline: none;
+  border-color: hotpink;
+}
+
+.name {
+  font-size: 10px;
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  color: gray;
 }

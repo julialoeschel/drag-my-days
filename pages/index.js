@@ -9,6 +9,7 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
+  MouseSensor,
 } from "@dnd-kit/core";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import ContainerWeek from "../public/Components/ContainerWeek";
@@ -22,7 +23,11 @@ export default function Home() {
   const days = Object.keys(items).filter((key) => key.includes("day"));
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
@@ -32,6 +37,25 @@ export default function Home() {
     () => setItems(JSON.parse(window.localStorage.getItem("items"))),
     []
   );
+
+  useEffect(
+    () => localStorage.setItem("items", JSON.stringify(items)),
+    [items]
+  );
+
+  function handleEdit(updatedValue) {
+    const foundDay = findContainer(updatedValue.id);
+    const foundIndex = items[foundDay].findIndex(
+      (element) => element.id === updatedValue.id
+    );
+    const updatedDay = [
+      ...items[foundDay].slice(0, foundIndex),
+      updatedValue,
+      ...items[foundDay].slice(foundIndex + 1, items[foundDay].length),
+    ];
+
+    setItems({ ...items, [foundDay]: updatedDay });
+  }
 
   return (
     <section className={styles.container}>
@@ -44,7 +68,13 @@ export default function Home() {
       >
         <div className={styles.upperContainer}>
           {days.map((day) => (
-            <ContainerWeek id={day} key={day} items={items[day]} date={day} />
+            <ContainerWeek
+              id={day}
+              key={day}
+              items={items[day]}
+              date={day}
+              onEdit={handleEdit}
+            />
           ))}
         </div>
 
@@ -74,11 +104,23 @@ export default function Home() {
             </button>
           </div>
           {showLecture === "session" ? (
-            <Container id="sessions" items={items.sessions} />
+            <Container
+              id="sessions"
+              items={items.sessions}
+              // onEdit={handleEdit}
+            />
           ) : showLecture === "guestSession" ? (
-            <Container id="guestSessions" items={items.guestSessions} />
+            <Container
+              id="guestSessions"
+              items={items.guestSessions}
+              //  onEdit={handleEdit}
+            />
           ) : (
-            <Container id="breather" items={items.breather} />
+            <Container
+              id="breather"
+              items={items.breather}
+              // onEdit={handleEdit}
+            />
           )}
         </div>
         <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay>
