@@ -12,6 +12,7 @@ export function Item(props) {
     props.onEdit({ name: session.value, id: props.id, coach: coach.value });
     setIsEditing(false);
   }
+  console.log(props.item.coach);
 
   return isEditing ? (
     <form className={styles.form} onSubmit={handleSubmit}>
@@ -24,7 +25,12 @@ export function Item(props) {
       />
 
       <label htmlFor="coach">Coach: </label>
-      <input type="text" name="coach" id="coach" defaultValue={props.coach} />
+      <input
+        type="text"
+        name="coach"
+        id="coach"
+        defaultValue={props.item.coach}
+      />
       <button type="submit">save</button>
     </form>
   ) : (

@@ -38,10 +38,25 @@ export default function Home() {
     []
   );
 
-  function handleEdit(updatedValue) {
-    console.log("it worked");
-  }
+  useEffect(
+    () => localStorage.setItem("items", JSON.stringify(items)),
+    [items]
+  );
 
+  function handleEdit(updatedValue) {
+    const foundDay = findContainer(updatedValue.id);
+    const foundIndex = items[foundDay].findIndex(
+      (element) => element.id === updatedValue.id
+    );
+    const updatedDay = [
+      ...items[foundDay].slice(0, foundIndex),
+      updatedValue,
+      ...items[foundDay].slice(foundIndex + 1, items[foundDay].length),
+    ];
+
+    setItems({ ...items, [foundDay]: updatedDay });
+  }
+  console.log(items);
   return (
     <section className={styles.container}>
       <DndContext
