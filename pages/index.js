@@ -1,3 +1,5 @@
+/*Information: Local Storage saves the previous state, not the actuel one -> check this first */
+
 import styles from "../styles/Home.module.css";
 import { data } from "../public/data-newsortet";
 import { useEffect, useState } from "react";
@@ -6,7 +8,6 @@ import {
   DragOverlay,
   closestCorners,
   KeyboardSensor,
-  PointerSensor,
   useSensor,
   useSensors,
   MouseSensor,
@@ -15,9 +16,11 @@ import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import ContainerWeek from "../public/Components/ContainerWeek";
 import Container from "../public/Components/Container";
 import { Item } from "../public/Components/SortableItem";
+import Header from "../public/Components/Header";
 
 export default function Home() {
   const [items, setItems] = useState(data());
+
   const [activeId, setActiveId] = useState();
   const [showLecture, setShowLecture] = useState("session");
   const days = Object.keys(items).filter((key) => key.includes("day"));
@@ -37,11 +40,6 @@ export default function Home() {
     () => setItems(JSON.parse(window.localStorage.getItem("items"))),
     []
   );
-
-  // useEffect(
-  //   () => localStorage.setItem("items", JSON.stringify(items)),
-  //   [items]
-  // );
 
   function handleEdit(updatedValue) {
     const foundDay = findContainer(updatedValue.id);
@@ -98,74 +96,80 @@ export default function Home() {
   }
 
   return (
-    <section className={styles.container}>
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCorners}
-        onDragStart={handleDragStart}
-        onDragOver={handleDragOver}
-        onDragEnd={handleDragEnd}
-      >
-        <div className={styles.upperContainer}>
-          {days.map((day) => (
-            <ContainerWeek
-              id={day}
-              key={day}
-              items={items[day]}
-              date={day}
-              onEdit={handleEdit}
-            />
-          ))}
-        </div>
-
-        <div className={styles.lowerContainer}>
-          <div className={styles.buttonContainer}>
-            <button
-              onClick={() => setShowLecture("session")}
-              className={showLecture === "session" ? styles.activeButton : null}
-            >
-              Sessions
-            </button>
-            <button
-              onClick={() => setShowLecture("guestSession")}
-              className={
-                showLecture === "guestSession" ? styles.activeButton : null
-              }
-            >
-              GuestSession
-            </button>
-            <button
-              onClick={() => setShowLecture("breather")}
-              className={
-                showLecture === "breather" ? styles.activeButton : null
-              }
-            >
-              Breather
-            </button>
+    <>
+      <Header></Header>
+      {}
+      <section className={styles.container}>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCorners}
+          onDragStart={handleDragStart}
+          onDragOver={handleDragOver}
+          onDragEnd={handleDragEnd}
+        >
+          <div className={styles.upperContainer}>
+            {days.map((day) => (
+              <ContainerWeek
+                id={day}
+                key={day}
+                items={items[day]}
+                date={day}
+                onEdit={handleEdit}
+              />
+            ))}
           </div>
-          {showLecture === "session" ? (
-            <Container
-              id="sessions"
-              items={items.sessions}
-              onEdit={handleEditSessions}
-            />
-          ) : showLecture === "guestSession" ? (
-            <Container
-              id="guestSessions"
-              items={items.guestSessions}
-              onEdit={handleEditGuestSession}
-            />
-          ) : (
-            <Container
-              id="breather"
-              items={items.breather}
-              onEdit={handleEditBreather}
-            />
-          )}
-        </div>
-        <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay>
-      </DndContext>
-    </section>
+
+          <div className={styles.lowerContainer}>
+            <div className={styles.buttonContainer}>
+              <button
+                onClick={() => setShowLecture("session")}
+                className={
+                  showLecture === "session" ? styles.activeButton : null
+                }
+              >
+                Sessions
+              </button>
+              <button
+                onClick={() => setShowLecture("guestSession")}
+                className={
+                  showLecture === "guestSession" ? styles.activeButton : null
+                }
+              >
+                GuestSession
+              </button>
+              <button
+                onClick={() => setShowLecture("breather")}
+                className={
+                  showLecture === "breather" ? styles.activeButton : null
+                }
+              >
+                Breather
+              </button>
+            </div>
+            {showLecture === "session" ? (
+              <Container
+                id="sessions"
+                items={items.sessions}
+                onEdit={handleEditSessions}
+              />
+            ) : showLecture === "guestSession" ? (
+              <Container
+                id="guestSessions"
+                items={items.guestSessions}
+                onEdit={handleEditGuestSession}
+              />
+            ) : (
+              <Container
+                id="breather"
+                items={items.breather}
+                onEdit={handleEditBreather}
+              />
+            )}
+          </div>
+          <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay>
+        </DndContext>
+      </section>
+    </>
   );
 
   function findContainer(id) {
